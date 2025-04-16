@@ -1,0 +1,14 @@
+Metadata-Version: 2.4
+Name: mctdh_input
+Version: 0.1.0
+Summary: MCTDH input file generator
+Author-email: Alejandro Zepeda Herrera <azepeda1297@gmail.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Dynamic: license-file
+
+# mctdh_input_generator
+Software for creating heidleberg mctdh (and ML-MCTDH) input and operator files

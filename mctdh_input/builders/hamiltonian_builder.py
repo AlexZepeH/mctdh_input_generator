@@ -19,12 +19,20 @@ class OperatorTerm:
         self.coefficient = coefficient
         self.operators = operators
 
-    def __str__(self):
+    def to_string_with_index(self, label_to_index: dict[str, int]) -> str:
         # Format the term: <coefficient> |<index1> <op1> |<index2> <op2>  ...
         terms = [f"{self.coefficient}"]
-        for dof_label,op in self.operators:
-            terms.append(f"|{dof_label} {op}")
+        for dof_label, op in self.operators:
+            index = label_to_index[dof_label]
+            terms.append(f"|{index} {op}")
         return " ".join(terms)
+
+    # def __str__(self):
+    #     # Format the term: <coefficient> |<index1> <op1> |<index2> <op2>  ...
+    #     terms = [f"{self.coefficient}"]
+    #     for dof_label,op in self.operators:
+    #         terms.append(f"|{dof_label} {op}")
+    #     return " ".join(terms)
 
 class HamiltonianSubsection:
     def __init__(self, name: str):
@@ -35,11 +43,17 @@ class HamiltonianSubsection:
         term = OperatorTerm(coefficient, ops)
         self.terms.append(term)
 
-    def __str__(self):
+    def to_string(self, label_to_index: dict[str, int]) -> str:
         lines = [f"# {self.name}"]
         for term in self.terms:
-            lines.append(str(term))
+            lines.append(term.to_string_with_index(label_to_index))
         return "\n".join(lines)
+    
+    # def __str__(self):
+    #     lines = [f"# {self.name}"]
+    #     for term in self.terms:
+    #         lines.append(str(term))
+    #     return "\n".join(lines)
 
 class HamiltonianBuilder:
     def __init__(self, degrees_of_freedom_labels: list[str]):
@@ -60,6 +74,10 @@ class HamiltonianBuilder:
         term = OperatorTerm(coefficient,operators)
         self.operator_terms.append(term)
 
+
+    def _label_to_index_map(self):
+        return {label: idx + 1 for idx, label in enumerate(self.dof_labels)}
+
     def _format_modes_lines(self,chunk_size=5):
         """Split DOF labels into lines with a amx of `chunk_size` per line."""
         lines = []
@@ -70,6 +88,7 @@ class HamiltonianBuilder:
         return lines
 
     def generate_file(self, filename: str):
+        label_to_index = self._label_to_index_map()
         with open(filename, 'w') as f:
             f.write("$HAMILTONIAN-section\n\n")
             
@@ -80,7 +99,7 @@ class HamiltonianBuilder:
 
              # FORMAT operator terms
             for subsection in self.subsections:
-                f.write(str(subsection) + "\n\n")
+                f.write(subsection.to_string(label_to_index) + "\n\n")
         
             f.write("\nend-hamiltonian-section\n")
 

@@ -1,0 +1,13 @@
+LICENSE
+README.md
+pyproject.toml
+mctdh_input/__init__.py
+mctdh_input.egg-info/PKG-INFO
+mctdh_input.egg-info/SOURCES.txt
+mctdh_input.egg-info/dependency_links.txt
+mctdh_input.egg-info/requires.txt
+mctdh_input.egg-info/top_level.txt
+mctdh_input/builders/__init__.py
+mctdh_input/builders/hamiltonian_builder.py
+mctdh_input/utils/electronic_ops.py
+tests/test_hamiltonian_builder.py
