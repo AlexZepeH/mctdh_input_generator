@@ -19,5 +19,56 @@ modes | x44 | x45 | x46 | x47 | x48
 # Coupling Terms
 0.25 |1 S2&1 |2 x
 
+# Purely Nuclear Kinetic Terms
+1.0 |2 KE
+1.0 |3 KE
+1.0 |4 KE
+1.0 |5 KE
+1.0 |6 KE
+1.0 |7 KE
+1.0 |8 KE
+1.0 |9 KE
+1.0 |10 KE
+1.0 |11 KE
+1.0 |12 KE
+1.0 |13 KE
+1.0 |14 KE
+1.0 |15 KE
+1.0 |16 KE
+1.0 |17 KE
+1.0 |18 KE
+1.0 |19 KE
+1.0 |20 KE
+1.0 |21 KE
+1.0 |22 KE
+1.0 |23 KE
+1.0 |24 KE
+1.0 |25 KE
+1.0 |26 KE
+1.0 |27 KE
+1.0 |28 KE
+1.0 |29 KE
+1.0 |30 KE
+1.0 |31 KE
+1.0 |32 KE
+1.0 |33 KE
+1.0 |34 KE
+1.0 |35 KE
+1.0 |36 KE
+1.0 |37 KE
+1.0 |38 KE
+1.0 |39 KE
+1.0 |40 KE
+1.0 |41 KE
+1.0 |42 KE
+1.0 |43 KE
+1.0 |44 KE
+1.0 |45 KE
+1.0 |46 KE
+1.0 |47 KE
+1.0 |48 KE
+1.0 |49 KE
+1.0 |50 KE
+
 
 end-hamiltonian-section

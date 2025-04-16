@@ -1,5 +1,7 @@
 from mctdh_input.builders.hamiltonian_builder import HamiltonianBuilder, HamiltonianSubsection
 from mctdh_input.utils.electronic_ops import ElectronicOperatorFactory
+from mctdh_input.utils.nuclear_kinetic_ops import build_purely_nuclear_kinetic_subsection
+
 
 # Initialize builder
 dofs = ["el", "R"] + [f"x{i}" for i in range(1, 49)]
@@ -22,6 +24,10 @@ coupling_section = HamiltonianSubsection("Coupling Terms")
 coupling_section.add_term("0.25", [("el", factory.Smn(2, 1)), ("R", "x")])  # R is a nuclear mode
 
 builder.add_subsection(coupling_section)
+
+# Create a nuclear-kinetic section (just for fun)
+kinetic_sub = build_purely_nuclear_kinetic_subsection(builder.dof_labels, electronic_label="el")
+builder.add_subsection(kinetic_sub)
 
 # Write to file
 builder.generate_file("examples/hamiltonian_test.txt")
