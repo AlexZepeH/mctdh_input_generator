@@ -12,20 +12,52 @@ operator in function of the degrees of freedom are defined.
 """
 
 class OperatorTerm:
-    def __init__(self, coefficient :str, operator :str):
+    def __init__(self, coefficient :str, operators : list[tuple[str,str]]):
+        """
+        operators is a list of tuples like: [(dof_label, operator_string)]
+        """
         self.coefficient = coefficient
-        self.operator = operator
+        self.operators = operators
 
     def __str__(self):
-        return f"{self.coefficient} {self.operator}"
+        # Format the term: <coefficient> |<index1> <op1> |<index2> <op2>  ...
+        terms = [f"{self.coefficient}"]
+        for dof_label,op in self.operators:
+            terms.append(f"|{dof_label} {op}")
+        return " ".join(terms)
+
+class HamiltonianSubsection:
+    def __init__(self, name: str):
+        self.name = name
+        self.terms: list[OperatorTerm] = []
+
+    def add_term(self, coefficient: str, ops: list[tuple[str, str]]):
+        term = OperatorTerm(coefficient, ops)
+        self.terms.append(term)
+
+    def __str__(self):
+        lines = [f"# {self.name}"]
+        for term in self.terms:
+            lines.append(str(term))
+        return "\n".join(lines)
 
 class HamiltonianBuilder:
     def __init__(self, degrees_of_freedom_labels: list[str]):
         self.dof_labels = degrees_of_freedom_labels
-        self.operator_terms = []
+        self.subsections: list[HamiltonianSubsection] = []
 
-    def add_term(self,coefficient: str, operator: str):
-        term = OperatorTerm(coefficient,operator)
+    def add_subsection(self, subsection: HamiltonianSubsection):
+        self.subsections.append(subsection)
+
+    def add_term(self,coefficient: str, operators: list[tuple[str,str]]):
+        """
+        Add a new operator term.
+        
+        Parameters:
+            coefficient (str): Coefficient for the operator term (e.g. "Q1 * Q2").
+            operators (list of tuples): List of (DOF label, operator expression).
+        """
+        term = OperatorTerm(coefficient,operators)
         self.operator_terms.append(term)
 
     def _format_modes_lines(self,chunk_size=5):
@@ -46,8 +78,9 @@ class HamiltonianBuilder:
                 f.write(line + "\n")
             f.write("\n")
 
-            for term in self.operator_terms:
-                f.write(str(term) + "\n")
+             # FORMAT operator terms
+            for subsection in self.subsections:
+                f.write(str(subsection) + "\n\n")
         
             f.write("\nend-hamiltonian-section\n")
 
