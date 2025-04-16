@@ -49,6 +49,7 @@ class HamiltonianSubsection:
             lines.append(term.to_string_with_index(label_to_index))
         return "\n".join(lines)
     
+    
     # def __str__(self):
     #     lines = [f"# {self.name}"]
     #     for term in self.terms:
@@ -103,5 +104,3 @@ class HamiltonianBuilder:
         
             f.write("\nend-hamiltonian-section\n")
 
-
-         
